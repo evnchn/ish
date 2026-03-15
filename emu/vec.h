@@ -137,7 +137,17 @@ void vec_single_ucomi32(struct cpu_state *cpu, const float *src, const float *ds
 void vec_single_ucomi64(struct cpu_state *cpu, const double *src, const double *dst);
 void vec_single_fcmp64(NO_CPU, const double *src, union xmm_reg *dst, uint8_t type);
 void vec_single_fcmp32(NO_CPU, const float *src, union xmm_reg *dst, uint8_t type);
+void vec_div_p64(NO_CPU, union xmm_reg *src, union xmm_reg *dst);
+void vec_div_p32(NO_CPU, union xmm_reg *src, union xmm_reg *dst);
+void vec_sqrt_p64(NO_CPU, const union xmm_reg *src, union xmm_reg *dst);
+void vec_sqrt_p32(NO_CPU, const union xmm_reg *src, union xmm_reg *dst);
+void vec_min_p64(NO_CPU, union xmm_reg *src, union xmm_reg *dst);
+void vec_min_p32(NO_CPU, union xmm_reg *src, union xmm_reg *dst);
+void vec_max_p64(NO_CPU, union xmm_reg *src, union xmm_reg *dst);
+void vec_max_p32(NO_CPU, union xmm_reg *src, union xmm_reg *dst);
+void vec_movmask_ps128(NO_CPU, const union xmm_reg *src, uint32_t *dst);
 void vec_fcmp_p64(NO_CPU, const union xmm_reg *src, union xmm_reg *dst, uint8_t type);
+void vec_fcmp_p32(NO_CPU, const union xmm_reg *src, union xmm_reg *dst, uint8_t type);
 
 void vec_cvtsi2sd32(NO_CPU, const int32_t *src, double *dst);
 void vec_cvttsd2si64(NO_CPU, const double *src, int32_t *dst);
@@ -145,9 +155,17 @@ void vec_cvtsd2ss64(NO_CPU, const double *src, float *dst);
 void vec_cvtsi2ss32(NO_CPU, const int32_t *src, float *dst);
 void vec_cvttss2si32(NO_CPU, const float *src, int32_t *dst);
 void vec_cvtss2sd32(NO_CPU, const float *src, double *dst);
+void vec_cvtsd2si_rnd64(NO_CPU, const double *src, int32_t *dst);
+void vec_cvtss2si_rnd32(NO_CPU, const float *src, int32_t *dst);
 
 void vec_cvttpd2dq64(NO_CPU, const union xmm_reg *src, union xmm_reg *dst);
 void vec_cvttps2dq32(NO_CPU, const union xmm_reg *src, union xmm_reg *dst);
+void vec_cvtpd2ps128(NO_CPU, const union xmm_reg *src, union xmm_reg *dst);
+void vec_cvtps2dq128(NO_CPU, const union xmm_reg *src, union xmm_reg *dst);
+void vec_cvtps2pd128(NO_CPU, const union xmm_reg *src, union xmm_reg *dst);
+void vec_cvtdq2ps128(NO_CPU, const union xmm_reg *src, union xmm_reg *dst);
+void vec_cvtpd2dq128(NO_CPU, const union xmm_reg *src, union xmm_reg *dst);
+void vec_cvtdq2pd128(NO_CPU, const union xmm_reg *src, union xmm_reg *dst);
 
 // TODO organize
 void vec_packss_w128(NO_CPU, const union xmm_reg *src, union xmm_reg *dst);

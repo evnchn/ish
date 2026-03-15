@@ -381,9 +381,62 @@ VEC_PACKED_OP(sub_p, -, f32, 32, 4)
 VEC_PACKED_OP(mul_p, *, f64, 64, 2)
 VEC_PACKED_OP(mul_p, *, f32, 32, 4)
 
+void vec_div_p64(NO_CPU, union xmm_reg *src, union xmm_reg *dst) {
+    for (int i = 0; i < 2; ++i)
+        dst->f64[i] /= src->f64[i];
+}
+void vec_div_p32(NO_CPU, union xmm_reg *src, union xmm_reg *dst) {
+    for (int i = 0; i < 4; ++i)
+        dst->f32[i] /= src->f32[i];
+}
+
+void vec_sqrt_p64(NO_CPU, const union xmm_reg *src, union xmm_reg *dst) {
+    for (int i = 0; i < 2; ++i)
+        dst->f64[i] = sqrt(src->f64[i]);
+}
+void vec_sqrt_p32(NO_CPU, const union xmm_reg *src, union xmm_reg *dst) {
+    for (int i = 0; i < 4; ++i)
+        dst->f32[i] = sqrtf(src->f32[i]);
+}
+
+void vec_min_p64(NO_CPU, union xmm_reg *src, union xmm_reg *dst) {
+    for (int i = 0; i < 2; ++i)
+        if (src->f64[i] < dst->f64[i] || isnan(src->f64[i]) || isnan(dst->f64[i]))
+            dst->f64[i] = src->f64[i];
+}
+void vec_min_p32(NO_CPU, union xmm_reg *src, union xmm_reg *dst) {
+    for (int i = 0; i < 4; ++i)
+        if (src->f32[i] < dst->f32[i] || isnan(src->f32[i]) || isnan(dst->f32[i]))
+            dst->f32[i] = src->f32[i];
+}
+
+void vec_max_p64(NO_CPU, union xmm_reg *src, union xmm_reg *dst) {
+    for (int i = 0; i < 2; ++i)
+        if (src->f64[i] > dst->f64[i] || isnan(src->f64[i]) || isnan(dst->f64[i]))
+            dst->f64[i] = src->f64[i];
+}
+void vec_max_p32(NO_CPU, union xmm_reg *src, union xmm_reg *dst) {
+    for (int i = 0; i < 4; ++i)
+        if (src->f32[i] > dst->f32[i] || isnan(src->f32[i]) || isnan(dst->f32[i]))
+            dst->f32[i] = src->f32[i];
+}
+
+void vec_movmask_ps128(NO_CPU, const union xmm_reg *src, uint32_t *dst) {
+    *dst = 0;
+    for (unsigned i = 0; i < 4; i++) {
+        if (src->u32[i] >> 31)
+            *dst |= 1 << i;
+    }
+}
+
 void vec_fcmp_p64(NO_CPU, const union xmm_reg *src, union xmm_reg *dst, uint8_t type) {
     for (size_t i = 0; i < sizeof(dst->f64) / sizeof(*dst->f64); ++i) {
         dst->qw[i] = cmpd(dst->f64[i], src->f64[i], type) ? -1 : 0;
+    }
+}
+void vec_fcmp_p32(NO_CPU, const union xmm_reg *src, union xmm_reg *dst, uint8_t type) {
+    for (size_t i = 0; i < sizeof(dst->f32) / sizeof(*dst->f32); ++i) {
+        dst->u32[i] = cmps(dst->f32[i], src->f32[i], type) ? (uint32_t)-1 : 0;
     }
 }
 
@@ -423,6 +476,62 @@ VEC_CVT(ss2sd32, float, double)
 
 PACKED_VEC_CVT(tpd2dq64, f64, u32, double, int32_t, 2)
 PACKED_VEC_CVT(tps2dq32, f32, u32, float, int32_t, 4)
+
+void vec_cvtsd2si_rnd64(NO_CPU, const double *src, int32_t *dst) {
+    double val = *src;
+    if (isnan(val))
+        *dst = INT32_MIN;
+    else
+        *dst = (int32_t)nearbyint(val);
+}
+void vec_cvtss2si_rnd32(NO_CPU, const float *src, int32_t *dst) {
+    float val = *src;
+    if (isnan(val))
+        *dst = INT32_MIN;
+    else
+        *dst = (int32_t)nearbyintf(val);
+}
+
+void vec_cvtpd2ps128(NO_CPU, const union xmm_reg *src, union xmm_reg *dst) {
+    dst->f32[0] = (float)src->f64[0];
+    dst->f32[1] = (float)src->f64[1];
+    dst->u32[2] = 0;
+    dst->u32[3] = 0;
+}
+void vec_cvtps2dq128(NO_CPU, const union xmm_reg *src, union xmm_reg *dst) {
+    for (int i = 0; i < 4; ++i) {
+        if (isnan(src->f32[i]))
+            dst->u32[i] = (uint32_t)INT32_MIN;
+        else
+            dst->u32[i] = (int32_t)nearbyintf(src->f32[i]);
+    }
+}
+void vec_cvtps2pd128(NO_CPU, const union xmm_reg *src, union xmm_reg *dst) {
+    // Must read src before writing dst (they may alias)
+    float s0 = src->f32[0], s1 = src->f32[1];
+    dst->f64[0] = (double)s0;
+    dst->f64[1] = (double)s1;
+}
+void vec_cvtdq2ps128(NO_CPU, const union xmm_reg *src, union xmm_reg *dst) {
+    for (int i = 0; i < 4; ++i)
+        dst->f32[i] = (float)(int32_t)src->u32[i];
+}
+void vec_cvtpd2dq128(NO_CPU, const union xmm_reg *src, union xmm_reg *dst) {
+    for (int i = 0; i < 2; ++i) {
+        if (isnan(src->f64[i]))
+            dst->u32[i] = (uint32_t)INT32_MIN;
+        else
+            dst->u32[i] = (int32_t)nearbyint(src->f64[i]);
+    }
+    dst->u32[2] = 0;
+    dst->u32[3] = 0;
+}
+void vec_cvtdq2pd128(NO_CPU, const union xmm_reg *src, union xmm_reg *dst) {
+    // Must read src before writing dst (they may alias)
+    int32_t s0 = (int32_t)src->u32[0], s1 = (int32_t)src->u32[1];
+    dst->f64[0] = (double)s0;
+    dst->f64[1] = (double)s1;
+}
 
 void vec_unpackl_bw128(NO_CPU, const union xmm_reg *src, union xmm_reg *dst) {
     for (int i = 7; i >= 0; i--) {
