@@ -156,10 +156,12 @@ static void halt_system(void) {
                 tasks_found++;
                 switch (state) {
                 case 0:
-                    deliver_signal(task, SIGTERM_, SIGINFO_NIL);
+                    if (task->sighand != NULL)
+                        deliver_signal(task, SIGTERM_, SIGINFO_NIL);
                     break;
                 case 1:
-                    deliver_signal(task, SIGKILL_, SIGINFO_NIL);
+                    if (task->sighand != NULL)
+                        deliver_signal(task, SIGKILL_, SIGINFO_NIL);
                     break;
                 case 2:
                     pthread_kill(task->thread, SIGTERM);
