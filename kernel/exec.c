@@ -274,13 +274,18 @@ static int elf_exec(struct fd *fd, const char *file, struct exec_args argv, stru
     current->mm->vdso = vdso_page << PAGE_BITS;
     addr_t vdso_entry = current->mm->vdso + ((struct elf_header *) vdso_data)->entry_point;
 
-    // map 3 empty "vvar" pages to satisfy ptraceomatic
-    page_t vvar_page = pt_find_hole(current->mem, VVAR_PAGES);
+    // map empty "vvar" pages to satisfy ptraceomatic
+    page_t vvar_page = pt_find_hole(current->mem, VVAR_PAGES + VVAR_VCLOCK_PAGES);
     if (vvar_page == BAD_PAGE)
         goto beyond_hope;
     if ((err = pt_map_nothing(current->mem, vvar_page, VVAR_PAGES, 0)) < 0)
         goto beyond_hope;
     mem_pt(current->mem, vvar_page)->data->name = "[vvar]";
+    // map empty "vvar_vclock" pages (kernel 6.13+ splits these from vvar)
+    page_t vvar_vclock_page = vvar_page + VVAR_PAGES;
+    if ((err = pt_map_nothing(current->mem, vvar_vclock_page, VVAR_VCLOCK_PAGES, 0)) < 0)
+        goto beyond_hope;
+    mem_pt(current->mem, vvar_vclock_page)->data->name = "[vvar_vclock]";
 
     // STACK TIME!
 
