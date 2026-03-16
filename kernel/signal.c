@@ -170,14 +170,53 @@ static void setup_sigcontext(struct sigcontext_ *sc, struct cpu_state *cpu) {
     sc->trapno = cpu->trapno;
     if (cpu->trapno == INT_GPF)
         sc->cr2 = cpu->segfault_addr;
-    // TODO more shit
     sc->oldmask = current->blocked & 0xffffffff;
+    // fpstate pointer is set later by setup_sigframe/setup_rt_sigframe
+    // after the frame location on the stack is known
+}
+
+static void save_fpstate(struct fpstate_ *fp, struct cpu_state *cpu) {
+    // Legacy FPU state
+    fp->cw = cpu->fcw;
+    fp->sw = cpu->fsw;
+    fp->tag = 0xffff; // all valid (simplified)
+    fp->status = cpu->fsw;
+    fp->magic = 0xffff; // indicates FXSR data follows
+
+    // FXSR environment
+    fp->mxcsr = 0x1f80; // default MXCSR value
+
+    // FPU registers (ST0-ST7)
+    for (int i = 0; i < 8; i++) {
+        // Copy the 80-bit float as raw bytes
+        memcpy(&fp->fxsr_st[i], &cpu->fp[i], sizeof(float80));
+    }
+
+    // XMM registers
+    for (int i = 0; i < 8; i++) {
+        memcpy(&fp->xmm[i], &cpu->xmm[i], sizeof(struct xmmreg_));
+    }
+}
+
+static void restore_fpstate(struct fpstate_ *fp, struct cpu_state *cpu) {
+    cpu->fcw = fp->cw;
+    cpu->fsw = fp->sw;
+
+    for (int i = 0; i < 8; i++) {
+        memcpy(&cpu->fp[i], &fp->fxsr_st[i], sizeof(float80));
+    }
+
+    for (int i = 0; i < 8; i++) {
+        memcpy(&cpu->xmm[i], &fp->xmm[i], sizeof(struct xmmreg_));
+    }
 }
 
 static void setup_sigframe(struct siginfo_ *info, struct sigframe_ *frame) {
     frame->restorer = sigreturn_trampoline("__kernel_sigreturn");
     frame->sig = info->sig;
     setup_sigcontext(&frame->sc, &current->cpu);
+    save_fpstate(&frame->fpstate, &current->cpu);
+    // fpstate pointer will be set in receive_signal after stack address is known
     frame->extramask = current->blocked >> 32;
 
     static const struct {
@@ -200,6 +239,7 @@ static void setup_rt_sigframe(struct siginfo_ *info, struct rt_sigframe_ *frame)
     frame->uc.link = 0;
     altstack_to_user(current->sighand, &frame->uc.stack);
     setup_sigcontext(&frame->uc.mcontext, &current->cpu);
+    // fpstate pointer will be set in receive_signal after stack address is known
     frame->uc.sigmask = current->blocked;
 
     static const struct {
@@ -268,6 +308,18 @@ static void receive_signal(struct sighand *sighand, struct siginfo_ *info) {
         sp &=~ 0x3f;
         sp -= fxsave_extra;
     }
+
+    // For rt_sigframe, fpstate goes on the stack below the frame
+    // (for regular sigframe, fpstate is already embedded in the struct)
+    dword_t fpstate_addr = 0;
+    struct fpstate_ rt_fpstate = {};
+    if (need_siginfo) {
+        save_fpstate(&rt_fpstate, &current->cpu);
+        sp -= sizeof(struct fpstate_);
+        sp &= ~0xf; // fpstate must be 16-byte aligned
+        fpstate_addr = sp;
+    }
+
     sp -= frame_size;
     // align sp + 4 on a 16-byte boundary because that's what the abi says
     sp = ((sp + 4) & ~0xf) - 4;
@@ -283,14 +335,26 @@ static void receive_signal(struct sighand *sighand, struct siginfo_ *info) {
     if (need_siginfo) {
         frame.rt_sigframe.pinfo = sp + offsetof(struct rt_sigframe_, info);
         frame.rt_sigframe.puc = sp + offsetof(struct rt_sigframe_, uc);
+        frame.rt_sigframe.uc.mcontext.fpstate = fpstate_addr;
         current->cpu.edx = frame.rt_sigframe.pinfo;
         current->cpu.ecx = frame.rt_sigframe.puc;
+    } else {
+        // For regular sigframe, fpstate is embedded, compute address
+        frame.sigframe.sc.fpstate = sp + offsetof(struct sigframe_, fpstate);
     }
 
     // install frame
     if (user_write(sp, &frame, frame_size)) {
         printk("failed to install frame for %d at %#x\n", info->sig, sp);
         deliver_signal(current, SIGSEGV_, SIGINFO_NIL);
+    }
+
+    // write fpstate for rt_sigframe (placed after the frame on the stack)
+    if (need_siginfo && fpstate_addr) {
+        if (user_write(fpstate_addr, &rt_fpstate, sizeof(rt_fpstate))) {
+            printk("failed to install fpstate at %#x\n", fpstate_addr);
+            deliver_signal(current, SIGSEGV_, SIGINFO_NIL);
+        }
     }
 
     if (action->flags & SA_RESETHAND_)
@@ -407,6 +471,14 @@ dword_t sys_rt_sigreturn() {
     }
     restore_sigcontext(&frame.uc.mcontext, cpu);
 
+    // Restore FPU/SSE state from fpstate if pointer is valid
+    if (frame.uc.mcontext.fpstate) {
+        struct fpstate_ fpstate;
+        if (!user_get(frame.uc.mcontext.fpstate, fpstate)) {
+            restore_fpstate(&fpstate, cpu);
+        }
+    }
+
     lock(&current->sighand->lock);
     // FIXME this duplicates logic from sys_sigaltstack
     if (!is_on_altstack(cpu->esp, current->sighand) &&
@@ -428,6 +500,8 @@ dword_t sys_sigreturn() {
         return _EFAULT;
     }
     restore_sigcontext(&frame.sc, cpu);
+    // fpstate is embedded in sigframe_, restore it
+    restore_fpstate(&frame.fpstate, cpu);
 
     lock(&current->sighand->lock);
     sigset_t_ oldmask = ((sigset_t_) frame.extramask << 32) | frame.sc.oldmask;

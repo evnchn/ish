@@ -3,8 +3,13 @@
 #define FUTEX_WAIT_ 0
 #define FUTEX_WAKE_ 1
 #define FUTEX_REQUEUE_ 3
+#define FUTEX_CMP_REQUEUE_ 4
+#define FUTEX_WAKE_OP_ 5
+#define FUTEX_WAIT_BITSET_ 9
+#define FUTEX_WAKE_BITSET_ 10
 #define FUTEX_PRIVATE_FLAG_ 128
 #define FUTEX_CMD_MASK_ ~(FUTEX_PRIVATE_FLAG_)
+#define FUTEX_BITSET_MATCH_ANY_ 0xffffffff
 
 struct futex {
     atomic_uint refcount;
@@ -170,13 +175,42 @@ dword_t sys_futex(addr_t uaddr, dword_t op, dword_t val, addr_t timeout_or_val2,
             return futex_wait(uaddr, val, timeout_or_val2 ? &timeout : NULL);
         case FUTEX_WAKE_:
             STRACE("futex(FUTEX_WAKE, %#x, %d)", uaddr, val);
-            return futex_wakelike(op & FUTEX_CMD_MASK_, uaddr, val, 0, 0);
+            return futex_wakelike(FUTEX_WAKE_, uaddr, val, 0, 0);
         case FUTEX_REQUEUE_:
             STRACE("futex(FUTEX_REQUEUE, %#x, %d, %#x)", uaddr, val, uaddr2);
-            return futex_wakelike(op & FUTEX_CMD_MASK_, uaddr, val, timeout_or_val2, uaddr2);
+            return futex_wakelike(FUTEX_REQUEUE_, uaddr, val, timeout_or_val2, uaddr2);
+        case FUTEX_CMP_REQUEUE_: {
+            STRACE("futex(FUTEX_CMP_REQUEUE, %#x, %d, %d, %#x, %d)", uaddr, val, timeout_or_val2, uaddr2, val3);
+            // Check current value matches expected before requeuing
+            struct futex *futex = futex_get(uaddr);
+            dword_t tmp;
+            if (futex_load(futex, &tmp)) {
+                futex_put(futex);
+                return _EFAULT;
+            }
+            if (tmp != val3) {
+                futex_put(futex);
+                return _EAGAIN;
+            }
+            futex_put(futex);
+            return futex_wakelike(FUTEX_REQUEUE_, uaddr, val, timeout_or_val2, uaddr2);
+        }
+        case FUTEX_WAIT_BITSET_:
+            STRACE("futex(FUTEX_WAIT_BITSET, %#x, %d, 0x%x, %d) = ...\n", uaddr, val, timeout_or_val2, val3);
+            // Bitset matching: if val3 is MATCH_ANY, behave like FUTEX_WAIT
+            // For simplicity, we ignore the bitset and always match (correct
+            // for the common case where val3 == FUTEX_BITSET_MATCH_ANY)
+            if (val3 == 0)
+                return _EINVAL;
+            return futex_wait(uaddr, val, timeout_or_val2 ? &timeout : NULL);
+        case FUTEX_WAKE_BITSET_:
+            STRACE("futex(FUTEX_WAKE_BITSET, %#x, %d, %d)", uaddr, val, val3);
+            if (val3 == 0)
+                return _EINVAL;
+            return futex_wakelike(FUTEX_WAKE_, uaddr, val, 0, 0);
     }
     STRACE("futex(%#x, %d, %d, timeout=%#x, %#x, %d) ", uaddr, op, val, timeout_or_val2, uaddr2, val3);
-    FIXME("unsupported futex operation %d", op);
+    FIXME("unsupported futex operation %d", op & FUTEX_CMD_MASK_);
     return _ENOSYS;
 }
 
