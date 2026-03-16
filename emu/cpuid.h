@@ -12,7 +12,6 @@ static inline void do_cpuid(dword_t *eax, dword_t *ebx, dword_t *ecx, dword_t *e
             *edx = 0x49656e69; // ineI
             *ecx = 0x6c65746e; // ntel
             break;
-        default: // if leaf is too high, use highest supported leaf
         case 1:
             *eax = 0x0; // say nothing about cpu model number
             *ebx = 0x0; // processor number 0, flushes 0 bytes on clflush
@@ -22,6 +21,16 @@ static inline void do_cpuid(dword_t *eax, dword_t *ebx, dword_t *ecx, dword_t *e
                 | (1 << 23) // mmx
                 | (1 << 26) // sse2
                 ;
+            break;
+        default:
+            // Unsupported leaves must return zeros to avoid confusing
+            // software that queries higher leaves (e.g. leaf 7 for
+            // extended features). Returning leaf 1 results for unknown
+            // leaves could falsely indicate features like AVX512.
+            *eax = 0;
+            *ebx = 0;
+            *ecx = 0;
+            *edx = 0;
             break;
     }
 }
