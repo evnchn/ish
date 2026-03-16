@@ -276,15 +276,24 @@ void *mem_ptr(struct mem *mem, addr_t addr, int type) {
         asbestos_invalidate_page(mem->mmu.asbestos, page);
         // if page is cow, ~~milk~~ copy it
         if (entry->flags & P_COW) {
-            void *data = (char *) entry->data->data + entry->offset;
             void *copy = mmap(NULL, PAGE_SIZE, PROT_READ | PROT_WRITE,
                     MAP_PRIVATE | MAP_ANONYMOUS, 0, 0);
 
             // copy/paste from above
             read_wrunlock(&mem->lock);
             write_wrlock(&mem->lock);
-            memcpy(copy, data, PAGE_SIZE);
-            pt_map(mem, page, 1, copy, 0, entry->flags &~ P_COW);
+            // Re-fetch entry and data after lock upgrade since another thread
+            // may have modified/freed the page table entry while we released
+            // the read lock.
+            entry = mem_pt(mem, page);
+            if (entry != NULL && (entry->flags & P_COW)) {
+                void *data = (char *) entry->data->data + entry->offset;
+                memcpy(copy, data, PAGE_SIZE);
+                pt_map(mem, page, 1, copy, 0, entry->flags &~ P_COW);
+            } else {
+                // Another thread already handled the COW, discard our copy
+                munmap(copy, PAGE_SIZE);
+            }
             write_wrunlock(&mem->lock);
             read_wrlock(&mem->lock);
         }
