@@ -17,7 +17,10 @@ static int clockid_to_real(uint_t clock, clockid_t *real) {
         case CLOCK_REALTIME_:
         case CLOCK_REALTIME_COARSE_:
             *real = CLOCK_REALTIME; break;
-        case CLOCK_MONOTONIC_: *real = CLOCK_MONOTONIC; break;
+        case CLOCK_MONOTONIC_:
+        case CLOCK_MONOTONIC_COARSE_:
+        case CLOCK_MONOTONIC_RAW_:
+            *real = CLOCK_MONOTONIC; break;
         default: return _EINVAL;
     }
     return 0;
@@ -59,8 +62,8 @@ dword_t sys_clock_gettime(dword_t clock, addr_t tp) {
     STRACE("clock_gettime(%d, 0x%x)", clock, tp);
 
     struct timespec ts;
-    if (clock == CLOCK_PROCESS_CPUTIME_ID_) {
-        // FIXME this is thread usage, not process usage
+    if (clock == CLOCK_PROCESS_CPUTIME_ID_ || clock == CLOCK_THREAD_CPUTIME_ID_) {
+        // FIXME this is thread usage, not process usage (same for both)
         struct rusage_ rusage = rusage_get_current();
         ts.tv_sec = rusage.utime.sec;
         ts.tv_nsec = rusage.utime.usec * 1000;
