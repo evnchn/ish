@@ -81,17 +81,63 @@ void mem_next_page(struct mem *mem, page_t *page) {
 page_t pt_find_hole(struct mem *mem, pages_t size) {
     page_t hole_end = 0; // this can never be used before initializing but gcc doesn't realize
     bool in_hole = false;
+    pages_t largest_hole = 0;
+    pages_t total_free = 0;
+    int region_count = 0;
+    int hole_count = 0;
+    page_t region_start = 0;
     for (page_t page = 0xf7ffd; page > 0x40000; page--) {
         // I don't know how this works but it does
         if (!in_hole && mem_pt(mem, page) == NULL) {
             in_hole = true;
             hole_end = page + 1;
         }
-        if (mem_pt(mem, page) != NULL)
+        if (mem_pt(mem, page) != NULL) {
+            if (in_hole) {
+                pages_t hole_size = hole_end - (page + 1);
+                total_free += hole_size;
+                hole_count++;
+                if (hole_size > largest_hole)
+                    largest_hole = hole_size;
+            }
             in_hole = false;
+        }
         else if (hole_end - page == size)
             return page;
     }
+    if (in_hole) {
+        pages_t hole_size = hole_end - 0x40000;
+        total_free += hole_size;
+        hole_count++;
+        if (hole_size > largest_hole)
+            largest_hole = hole_size;
+    }
+    printk("pt_find_hole FAILED: need %d pages (%d KB)\n", size, size * 4);
+    printk("  largest hole = %d pages (%d KB)\n", largest_hole, largest_hole * 4);
+    printk("  total free = %d pages (%d KB), holes = %d\n", total_free, total_free * 4, hole_count);
+    printk("  address space map (regions > 16 pages):\n");
+    // Dump the map: show mapped regions and holes
+    in_hole = false;
+    page_t seg_start = 0xf7ffd;
+    bool seg_mapped = (mem_pt(mem, 0xf7ffd) != NULL);
+    for (page_t page = 0xf7ffd; page > 0x40000; page--) {
+        bool mapped = (mem_pt(mem, page) != NULL);
+        if (mapped != seg_mapped) {
+            pages_t seg_size = seg_start - page;
+            if (seg_size > 16)
+                printk("  %s 0x%05x-0x%05x (%d pages, %d KB)\n",
+                       seg_mapped ? "MAPPED" : "  free",
+                       page + 1, seg_start, seg_size, seg_size * 4);
+            seg_start = page;
+            seg_mapped = mapped;
+        }
+    }
+    // Final segment
+    pages_t seg_size = seg_start - 0x40000;
+    if (seg_size > 16)
+        printk("  %s 0x%05x-0x%05x (%d pages, %d KB)\n",
+               seg_mapped ? "MAPPED" : "  free",
+               0x40000, seg_start, seg_size, seg_size * 4);
     return BAD_PAGE;
 }
 
@@ -294,8 +340,16 @@ void *mem_ptr(struct mem *mem, addr_t addr, int type) {
                 // Another thread already handled the COW, discard our copy
                 munmap(copy, PAGE_SIZE);
             }
+            // Get the pointer while still holding write lock to prevent
+            // another thread from re-COWing the page before we return.
+            void *ptr = mem_ptr_nofault(mem, addr, type);
             write_wrunlock(&mem->lock);
             read_wrlock(&mem->lock);
+            // If COW resolution succeeded, return directly.
+            // This avoids a race where another thread re-adds P_COW
+            // between releasing write lock and the final nofault check.
+            if (ptr != NULL)
+                return ptr;
         }
     }
 

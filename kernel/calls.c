@@ -278,7 +278,22 @@ void handle_interrupt(int interrupt) {
         void *ptr = mem_ptr(current->mem, cpu->segfault_addr, cpu->segfault_was_write ? MEM_WRITE : MEM_READ);
         read_wrunlock(&current->mem->lock);
         if (ptr == NULL) {
-            printk("%d page fault on 0x%x at 0x%x\n", current->pid, cpu->segfault_addr, cpu->eip);
+            int reason = mem_segv_reason(current->mem, cpu->segfault_addr);
+            struct pt_entry *fault_pt = mem_pt(current->mem, PAGE(cpu->segfault_addr));
+            printk("%d page fault on 0x%x at 0x%x (%s) reason=%s flags=0x%x\n",
+                   current->pid, cpu->segfault_addr, cpu->eip,
+                   cpu->segfault_was_write ? "WRITE" : "READ",
+                   reason == SEGV_MAPERR_ ? "MAPERR" : "ACCERR",
+                   fault_pt ? fault_pt->flags : -1);
+            // Log instruction bytes at EIP for debugging V8 JIT crashes
+            printk("%d bytes at eip 0x%x: ", current->pid, cpu->eip);
+            for (int i = 0; i < 16; i++) {
+                uint8_t b;
+                if (user_get(cpu->eip + i, b))
+                    break;
+                printk("%02x ", b);
+            }
+            printk("\n");
             struct siginfo_ info = {
                 .code = mem_segv_reason(current->mem, cpu->segfault_addr),
                 .fault.addr = cpu->segfault_addr,

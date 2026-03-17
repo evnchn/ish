@@ -52,18 +52,23 @@ static addr_t do_mmap(addr_t addr, dword_t len, dword_t prot, dword_t flags, fd_
     pages_t pages = PAGE_ROUND_UP(len);
     if (!pages) return _EINVAL;
     page_t page;
-    if (addr != 0) {
+    if (addr != 0 && (flags & MMAP_FIXED)) {
         if (PGOFFSET(addr) != 0)
             return _EINVAL;
         page = PAGE(addr);
-        if (!(flags & MMAP_FIXED) && !pt_is_hole(current->mem, page, pages)) {
-            addr = 0;
-        }
-    }
-    if (addr == 0) {
+    } else {
+        // Ignore hint addresses for non-FIXED mmaps.
+        // V8 scatters hints across the entire 32-bit address space,
+        // causing severe fragmentation (4500+ mappings, largest gap
+        // only 125MB). By always using pt_find_hole's top-down
+        // packing, we keep large contiguous regions available.
+        addr = 0;
         page = pt_find_hole(current->mem, pages);
-        if (page == BAD_PAGE)
+        if (page == BAD_PAGE) {
+            printk("mmap ENOMEM: need %d pages (%d KB), prot=0x%x flags=0x%x\n",
+                   pages, pages * 4, prot, flags);
             return _ENOMEM;
+        }
     }
 
     if (flags & MMAP_SHARED)
