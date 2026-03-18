@@ -96,6 +96,9 @@ __thread sigjmp_buf unwind_buf;
 __thread bool should_unwind = false;
 
 void sigusr1_handler() {
+    // Poke the current task's CPU to break out of the emulation loop
+    if (current && current->cpu.poked_ptr)
+        __atomic_store_n(current->cpu.poked_ptr, true, __ATOMIC_SEQ_CST);
     if (should_unwind) {
         should_unwind = false;
         siglongjmp(unwind_buf, 1);
