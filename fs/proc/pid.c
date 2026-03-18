@@ -29,6 +29,11 @@ static int proc_pid_stat_show(struct proc_entry *entry, struct proc_data *buf) {
     if (task == NULL)
         return _ESRCH;
     lock(&task->general_lock);
+    if (task->group == NULL || task->sighand == NULL) {
+        unlock(&task->general_lock);
+        proc_put_task(task);
+        return _ESRCH;
+    }
     lock(&task->group->lock);
     lock(&task->sighand->lock);
 
@@ -260,6 +265,10 @@ static bool proc_pid_fd_readdir(struct proc_entry *entry, unsigned long *index, 
     struct task *task = proc_get_task(entry);
     if (task == NULL)
         return _ESRCH;
+    if (task->files == NULL) {
+        proc_put_task(task);
+        return false;
+    }
     lock(&task->files->lock);
     while (*index < task->files->size && task->files->files[*index] == NULL)
         (*index)++;
@@ -279,6 +288,10 @@ static int proc_pid_fd_readlink(struct proc_entry *entry, char *buf) {
     struct task *task = proc_get_task(entry);
     if (task == NULL)
         return _ESRCH;
+    if (task->files == NULL) {
+        proc_put_task(task);
+        return _ESRCH;
+    }
     lock(&task->files->lock);
     struct fd *fd = fdtable_get(task->files, entry->fd);
     int err = generic_getpath(fd, buf);
@@ -292,6 +305,11 @@ static int proc_pid_exe_readlink(struct proc_entry *entry, char *buf) {
     if (task == NULL)
         return _ESRCH;
     lock(&task->general_lock);
+    if (task->mm == NULL || task->mm->exefile == NULL) {
+        unlock(&task->general_lock);
+        proc_put_task(task);
+        return _ESRCH;
+    }
     int err = generic_getpath(task->mm->exefile, buf);
     unlock(&task->general_lock);
     proc_put_task(task);

@@ -285,12 +285,24 @@ void handle_interrupt(int interrupt) {
                    cpu->segfault_was_write ? "WRITE" : "READ",
                    reason == SEGV_MAPERR_ ? "MAPERR" : "ACCERR",
                    fault_pt ? fault_pt->flags : -1);
-            // Log instruction bytes at EIP for debugging V8 JIT crashes
+            // Log ALL registers + instruction bytes for debugging V8 JIT crashes
+            printk("%d regs: eax=0x%x ebx=0x%x ecx=0x%x edx=0x%x esi=0x%x edi=0x%x ebp=0x%x esp=0x%x\n",
+                   current->pid, cpu->eax, cpu->ebx, cpu->ecx, cpu->edx,
+                   cpu->esi, cpu->edi, cpu->ebp, cpu->esp);
             printk("%d bytes at eip 0x%x: ", current->pid, cpu->eip);
             for (int i = 0; i < 16; i++) {
                 uint8_t b;
                 if (user_get(cpu->eip + i, b))
                     break;
+                printk("%02x ", b);
+            }
+            printk("\n");
+            // Also log the 16 bytes BEFORE eip (the instruction that set edx wrong)
+            printk("%d bytes before eip: ", current->pid);
+            for (int i = -32; i < 0; i++) {
+                uint8_t b;
+                if (user_get(cpu->eip + i, b))
+                    continue;
                 printk("%02x ", b);
             }
             printk("\n");
