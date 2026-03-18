@@ -294,8 +294,13 @@ void *mem_ptr(struct mem *mem, addr_t addr, int type) {
                 // Another thread already handled the COW, discard our copy
                 munmap(copy, PAGE_SIZE);
             }
+            // Get the pointer while still holding write lock to prevent
+            // another thread from re-COWing the page before we return.
+            void *ptr = mem_ptr_nofault(mem, addr, type);
             write_wrunlock(&mem->lock);
             read_wrlock(&mem->lock);
+            if (ptr != NULL)
+                return ptr;
         }
     }
 
