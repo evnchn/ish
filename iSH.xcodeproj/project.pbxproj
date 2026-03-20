@@ -21,7 +21,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		0F59420CBFB6E83F347B9A35 /* claude_cli.js in Resources */ = {isa = PBXBuildFile; fileRef = 7E724DECB8E8A55E14723696 /* claude_cli.js */; };
 		0FC2383C2991FBA6004C09EC /* mmx.c in Sources */ = {isa = PBXBuildFile; fileRef = 0FC2383B2991FB82004C09EC /* mmx.c */; };
+		15924789869806063A6A1136 /* ClaudeNative.m in Sources */ = {isa = PBXBuildFile; fileRef = F1974D37A853582E71F254E7 /* ClaudeNative.m */; };
 		491B31E62883BF22008EEFB0 /* ThemeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 491B31E52883BF22008EEFB0 /* ThemeViewController.m */; };
 		49302D8E277669D300C9885A /* ish.c in Sources */ = {isa = PBXBuildFile; fileRef = 49302D8D277669D300C9885A /* ish.c */; };
 		496C7AB227CC697E005D7613 /* Theme.m in Sources */ = {isa = PBXBuildFile; fileRef = 491C4C1E27C8FB65008B1DFA /* Theme.m */; };
@@ -104,6 +106,9 @@
 		497F6D5C254E609700C82F46 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = BB7D93822087C2890008DA78 /* main.c */; };
 		497F6D87254E62E100C82F46 /* libish.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BB13F7DC200AD81D003D1C4D /* libish.a */; };
 		49FF844B2A06249F00850B7A /* ExceptionExfiltrator.m in Sources */ = {isa = PBXBuildFile; fileRef = 49FF844A2A06249F00850B7A /* ExceptionExfiltrator.m */; };
+		68F84708A9FF06730F50032D /* intl_stub.mjs in Resources */ = {isa = PBXBuildFile; fileRef = FADF48D097AE3D9C29469A1E /* intl_stub.mjs */; };
+		6C3E4CC8BDC79136EB1D1D7E /* mock_yoga.cjs in Resources */ = {isa = PBXBuildFile; fileRef = B2344CE4998429066A7EBE33 /* mock_yoga.cjs */; };
+		AA2E4FA0810589E468126371 /* bootstrap.mjs in Resources */ = {isa = PBXBuildFile; fileRef = F89544ED8048B65C5108B685 /* bootstrap.mjs */; };
 		BB0F552E239F8A790032A2A1 /* Icons.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB0F552D239F8A790032A2A1 /* Icons.plist */; };
 		BB10E5C9248DBAAC009C7A74 /* libarchive.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BB10E5C8248DBAA1009C7A74 /* libarchive.a */; };
 		BB10E5D0248DC21D009C7A74 /* Roots.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB10E5CF248DC21D009C7A74 /* Roots.storyboard */; };
@@ -244,10 +249,12 @@
 		BBFB2C7E259026C200545EAB /* libish_emu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BBFB2C5B2590257E00545EAB /* libish_emu.a */; };
 		BBFB2CEC2590296B00545EAB /* libish_emu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BBFB2C5B2590257E00545EAB /* libish_emu.a */; };
 		BBFB55662158644C00DFE6DE /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BBFB55652158644C00DFE6DE /* libresolv.tbd */; };
+		CC3C43948E8770CC632BA4A9 /* package.json in Resources */ = {isa = PBXBuildFile; fileRef = 692C42CAACDF93B3E69F84B8 /* package.json */; };
+		EB6F4818A441F9E72A2F3C43 /* ClaudeNative.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C8940658A85E269E20BE891 /* ClaudeNative.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
-		497A08BE29633FC100B323CF /* PBXBuildRule */ = {
+		497A08BE29633FC100B323CF = {
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.proxy.script;
 			fileType = sourcecode.mig;
@@ -588,12 +595,16 @@
 		497F6D47254E605F00C82F46 /* ish */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ish; sourceTree = BUILT_PRODUCTS_DIR; };
 		49FF844A2A06249F00850B7A /* ExceptionExfiltrator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExceptionExfiltrator.m; sourceTree = "<group>"; };
 		49FF844C2A0624AF00850B7A /* ExceptionExfiltrator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExceptionExfiltrator.h; sourceTree = "<group>"; };
+		4C8940658A85E269E20BE891 /* ClaudeNative.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ClaudeNative.h; path = app/ClaudeNative.h; sourceTree = SOURCE_ROOT; };
 		650B337222EA235C00B4C03E /* PasteboardDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasteboardDevice.h; sourceTree = "<group>"; };
 		650B337322EA235C00B4C03E /* PasteboardDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasteboardDevice.m; sourceTree = "<group>"; };
+		692C42CAACDF93B3E69F84B8 /* package.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = package.json; path = "package.json"; sourceTree = "<group>"; };
+		7E724DECB8E8A55E14723696 /* claude_cli.js */ = {isa = PBXFileReference; lastKnownFileType = None; name = claude_cli.js; path = "claude_cli.js"; sourceTree = "<group>"; };
 		8632A7BD219A59FB00F02325 /* UserPreferences.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserPreferences.h; sourceTree = "<group>"; };
 		8632A7BE219A59FB00F02325 /* UserPreferences.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserPreferences.m; sourceTree = "<group>"; };
 		9A28E4E8219A8B670073D200 /* AboutAppearanceViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutAppearanceViewController.h; sourceTree = "<group>"; };
 		9A28E4E9219A8B670073D200 /* AboutAppearanceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AboutAppearanceViewController.m; sourceTree = "<group>"; };
+		B2344CE4998429066A7EBE33 /* mock_yoga.cjs */ = {isa = PBXFileReference; lastKnownFileType = None; name = mock_yoga.cjs; path = "mock_yoga.cjs"; sourceTree = "<group>"; };
 		BB0B848E2586A4CF00208600 /* XcodeDefault.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = XcodeDefault.xcconfig; sourceTree = "<group>"; };
 		BB0B859B2586F13200208600 /* XcodeDebug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = XcodeDebug.xcconfig; sourceTree = "<group>"; };
 		BB0B859C2586F19000208600 /* XcodeRelease.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = XcodeRelease.xcconfig; sourceTree = "<group>"; };
@@ -750,6 +761,9 @@
 		BBFB557B215878C600DFE6DE /* UIApplication+OpenURL.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+OpenURL.m"; sourceTree = "<group>"; };
 		BBFB557E21587B6800DFE6DE /* ArrowBarButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ArrowBarButton.h; sourceTree = "<group>"; };
 		BBFB557F21587B6800DFE6DE /* ArrowBarButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ArrowBarButton.m; sourceTree = "<group>"; };
+		F1974D37A853582E71F254E7 /* ClaudeNative.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ClaudeNative.m; path = app/ClaudeNative.m; sourceTree = SOURCE_ROOT; };
+		F89544ED8048B65C5108B685 /* bootstrap.mjs */ = {isa = PBXFileReference; lastKnownFileType = None; name = bootstrap.mjs; path = "bootstrap.mjs"; sourceTree = "<group>"; };
+		FADF48D097AE3D9C29469A1E /* intl_stub.mjs */ = {isa = PBXFileReference; lastKnownFileType = None; name = intl_stub.mjs; path = "intl_stub.mjs"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -858,6 +872,19 @@
 				497F6C3A254E5C4F00C82F46 /* bits.S */,
 			);
 			path = "gadgets-aarch64";
+			sourceTree = "<group>";
+		};
+		531246CD9658D022B33A6E3F /* claude-native */ = {
+			isa = PBXGroup;
+			children = (
+				7E724DECB8E8A55E14723696 /* claude_cli.js */,
+				B2344CE4998429066A7EBE33 /* mock_yoga.cjs */,
+				692C42CAACDF93B3E69F84B8 /* package.json */,
+				F89544ED8048B65C5108B685 /* bootstrap.mjs */,
+				FADF48D097AE3D9C29469A1E /* intl_stub.mjs */,
+			);
+			name = "claude-native";
+			path = "app/claude-native";
 			sourceTree = "<group>";
 		};
 		BB0B848D2586A4B100208600 /* Configs */ = {
@@ -1020,6 +1047,9 @@
 				BB18B27F1F97F2590059FCD8 /* Scripts */,
 				BB792B511F96D90D00FFB7A4 /* Products */,
 				BB792B7D1F96E32B00FFB7A4 /* Frameworks */,
+				531246CD9658D022B33A6E3F /* claude-native */,
+				F1974D37A853582E71F254E7 /* ClaudeNative.m */,
+				4C8940658A85E269E20BE891 /* ClaudeNative.h */,
 			);
 			sourceTree = "<group>";
 			usesTabs = 0;
@@ -1358,6 +1388,17 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		AF434B558FAEE1523330B697 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EB6F4818A441F9E72A2F3C43 /* ClaudeNative.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXLegacyTarget section */
 		BB13F7CA200ACC31003D1C4D /* Meson */ = {
 			isa = PBXLegacyTarget;
@@ -1485,6 +1526,7 @@
 				BB4A53AC1FAA49CA00A72ACE /* Compile JavaScript */,
 				BB792B4E1F96D90D00FFB7A4 /* Resources */,
 				BB88F4A32154760800A341FD /* Embed Foundation Extensions */,
+				AF434B558FAEE1523330B697 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -1572,7 +1614,7 @@
 				BBEF191A26806364001225BD /* Sources */,
 			);
 			buildRules = (
-				497A08BE29633FC100B323CF /* PBXBuildRule */,
+				497A08BE29633FC100B323CF,
 			);
 			dependencies = (
 			);
@@ -1778,6 +1820,11 @@
 				BB38599F27BCEE6B000A1082 /* icon1337.png in Resources */,
 				BB3859A127BCEE6B000A1082 /* iinhash.png in Resources */,
 				BB38599727BCEE6B000A1082 /* freeiosterminal.png in Resources */,
+				0F59420CBFB6E83F347B9A35 /* claude_cli.js in Resources */,
+				6C3E4CC8BDC79136EB1D1D7E /* mock_yoga.cjs in Resources */,
+				CC3C43948E8770CC632BA4A9 /* package.json in Resources */,
+				AA2E4FA0810589E468126371 /* bootstrap.mjs in Resources */,
+				68F84708A9FF06730F50032D /* intl_stub.mjs in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1919,7 +1966,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "python3 - \"${SRCROOT}/app/Icons/Icons.plist\" \"${BUILT_PRODUCTS_DIR}/infoplisticons.h\" <<END\nimport plistlib\nimport sys\nprint(sys.argv)\nwith open(sys.argv[1], 'rb') as plist:\n    icons = plistlib.load(plist)\nalt_icons = '<key>CFBundleAlternateIcons</key><dict>'\nfor icon in icons.keys():\n    if icon == '': continue\n    alt_icons += '''<key>{0}</key>\n<dict>\n<key>CFBundleIconFiles</key>\n<array><string>{0}</string></array>\n</dict>'''.format(icon)\nalt_icons += '</dict>'\nicon_stuff = '''</string>\n<key>CFBundleIcons</key><dict>{0}</dict>\n<key>CFBundleIcons~ipad</key><dict>{0}</dict>\n<key>kxcode</key><string>'''.format(alt_icons)\nicon_define = '#define ICON_STUFF ' + icon_stuff.replace('\\n', '')\nwith open(sys.argv[2], 'w') as output:\n    output.write(icon_define)\nEND\ntouch \"${SRCROOT}/app/Info.plist\"\n";
+			shellScript = "python3 - \"${SRCROOT}/app/Icons/Icons.plist\" \"${BUILT_PRODUCTS_DIR}/infoplisticons.h\" <<END\nimport plistlib\nimport sys\nprint(sys.argv)\nwith open(sys.argv[1], 'rb') as plist:\n    icons = plistlib.load(plist)\nalt_icons = '<key>CFBundleAlternateIcons</key><dict>'\nfor icon in icons.keys():\n    if icon == '': continue\n    alt_icons += '''<key>{0}</key>\n<dict>\n<key>CFBundleIconFiles</key>\n<array><string>{0}</string></array>\n</dict>'''.format(icon)\nalt_icons += '</dict>'\nicon_stuff = '''</string>\n<key>CFBundleIcons</key><dict>{0}</dict>\n<key>CFBundleIcons~ipad</key><dict>{0}</dict>\n<key>kxcode</key><string>'''.format(alt_icons)\nicon_define = '#define ICON_STUFF ' + icon_stuff.replace('\n', '')\nwith open(sys.argv[2], 'w') as output:\n    output.write(icon_define)\nEND\ntouch \"${SRCROOT}/app/Info.plist\"\n";
 		};
 		BBECF3B2269136E100DEC937 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2130,6 +2177,7 @@
 				BB28C7BB268975AE00BDC834 /* LocationDevice.m in Sources */,
 				BB28C7BA268975AA00BDC834 /* iOSFS.m in Sources */,
 				BB28C7BC268975B000BDC834 /* PasteboardDevice.m in Sources */,
+				15924789869806063A6A1136 /* ClaudeNative.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2342,6 +2390,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BB0B86D52587009D00208600 /* iOS.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = "Debug-ApplePleaseFixFB19282108";
 		};
@@ -2349,6 +2398,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BB0B86D52587009D00208600 /* iOS.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = Release;
 		};
@@ -2356,6 +2406,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 493B378F290F5320000C41ED /* CLI.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = "Debug-ApplePleaseFixFB19282108";
 		};
@@ -2363,30 +2414,35 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 493B378F290F5320000C41ED /* CLI.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = Release;
 		};
 		BB13F7CC200ACC31003D1C4D /* Debug-ApplePleaseFixFB19282108 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = "Debug-ApplePleaseFixFB19282108";
 		};
 		BB13F7CD200ACC31003D1C4D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = Release;
 		};
 		BB13F7D2200ACCA2003D1C4D /* Debug-ApplePleaseFixFB19282108 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = "Debug-ApplePleaseFixFB19282108";
 		};
 		BB13F7D3200ACCA2003D1C4D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = Release;
 		};
@@ -2394,6 +2450,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBFB2CDA259028DC00545EAB /* StaticLib.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = "Debug-ApplePleaseFixFB19282108";
 		};
@@ -2401,6 +2458,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBFB2CDA259028DC00545EAB /* StaticLib.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = Release;
 		};
@@ -2408,6 +2466,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBFB2CDA259028DC00545EAB /* StaticLib.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = "Debug-ApplePleaseFixFB19282108";
 		};
@@ -2415,6 +2474,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBFB2CDA259028DC00545EAB /* StaticLib.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = DebugLinux;
 		};
@@ -2422,6 +2482,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBFB2CDA259028DC00545EAB /* StaticLib.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = Release;
 		};
@@ -2429,6 +2490,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBFB2CDA259028DC00545EAB /* StaticLib.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = ReleaseLinux;
 		};
@@ -2443,6 +2505,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).UITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2462,6 +2525,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).UITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -2472,12 +2536,14 @@
 		BB4A922524ED9402002F5A96 /* Debug-ApplePleaseFixFB19282108 */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = "Debug-ApplePleaseFixFB19282108";
 		};
 		BB4A922624ED9402002F5A96 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = Release;
 		};
@@ -2501,6 +2567,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BB0B86CD2586FD8800208600 /* App.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = "Debug-ApplePleaseFixFB19282108";
 		};
@@ -2508,6 +2575,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BB0B86CD2586FD8800208600 /* App.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = Release;
 		};
@@ -2523,6 +2591,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BB0B86CD2586FD8800208600 /* App.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = DebugLinux;
 		};
@@ -2530,6 +2599,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BB0B86CD2586FD8800208600 /* App.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = DebugLinux;
 		};
@@ -2537,6 +2607,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBEF192C26806546001225BD /* AppLib.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = DebugLinux;
 		};
@@ -2546,6 +2617,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = app/FileProvider/iSHFileProvider.entitlements;
 				INFOPLIST_FILE = app/FileProvider/Info.plist;
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).FileProvider";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2563,6 +2635,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).UITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2574,12 +2647,14 @@
 		BB7F620B2688EAB5003C0220 /* DebugLinux */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = DebugLinux;
 		};
 		BB7F620C2688EAB5003C0220 /* DebugLinux */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = DebugLinux;
 		};
@@ -2587,6 +2662,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBFB2CDA259028DC00545EAB /* StaticLib.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = DebugLinux;
 		};
@@ -2594,12 +2670,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBFB2CDA259028DC00545EAB /* StaticLib.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = DebugLinux;
 		};
 		BB7F620F2688EAB5003C0220 /* DebugLinux */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = DebugLinux;
 		};
@@ -2607,6 +2685,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BB0B86D52587009D00208600 /* iOS.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = DebugLinux;
 		};
@@ -2614,6 +2693,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 493B378F290F5320000C41ED /* CLI.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = DebugLinux;
 		};
@@ -2623,6 +2703,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = app/FileProvider/iSHFileProvider.entitlements;
 				INFOPLIST_FILE = app/FileProvider/Info.plist;
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).FileProvider";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2635,6 +2716,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = app/FileProvider/iSHFileProvider.entitlements;
 				INFOPLIST_FILE = app/FileProvider/Info.plist;
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).FileProvider";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2645,6 +2727,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBBDDF902CE00F8D0071F1F3 /* StaticLibLinuxUser.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = "Debug-ApplePleaseFixFB19282108";
@@ -2653,6 +2736,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBBDDF902CE00F8D0071F1F3 /* StaticLibLinuxUser.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = DebugLinux;
@@ -2661,6 +2745,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBBDDF902CE00F8D0071F1F3 /* StaticLibLinuxUser.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -2669,6 +2754,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBBDDF902CE00F8D0071F1F3 /* StaticLibLinuxUser.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = ReleaseLinux;
@@ -2677,6 +2763,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBECF3BA2691379100DEC937 /* StaticLibLinux.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = "Debug-ApplePleaseFixFB19282108";
 		};
@@ -2684,6 +2771,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBECF3BA2691379100DEC937 /* StaticLibLinux.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = DebugLinux;
 		};
@@ -2691,6 +2779,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBECF3BA2691379100DEC937 /* StaticLibLinux.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = Release;
 		};
@@ -2698,6 +2787,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBECF3BA2691379100DEC937 /* StaticLibLinux.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = ReleaseLinux;
 		};
@@ -2705,6 +2795,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBFB2CDA259028DC00545EAB /* StaticLib.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = "Debug-ApplePleaseFixFB19282108";
 		};
@@ -2712,6 +2803,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBFB2CDA259028DC00545EAB /* StaticLib.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = DebugLinux;
 		};
@@ -2719,6 +2811,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBFB2CDA259028DC00545EAB /* StaticLib.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = Release;
 		};
@@ -2726,6 +2819,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBFB2CDA259028DC00545EAB /* StaticLib.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = ReleaseLinux;
 		};
@@ -2733,6 +2827,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBEF192C26806546001225BD /* AppLib.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = "Debug-ApplePleaseFixFB19282108";
 		};
@@ -2740,6 +2835,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBEF192C26806546001225BD /* AppLib.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = Release;
 		};
@@ -2747,6 +2843,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BB0B86CD2586FD8800208600 /* App.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = "Debug-ApplePleaseFixFB19282108";
 		};
@@ -2754,6 +2851,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BB0B86CD2586FD8800208600 /* App.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = Release;
 		};
@@ -2769,6 +2867,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BB0B86CD2586FD8800208600 /* App.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = ReleaseLinux;
 		};
@@ -2776,6 +2875,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BB0B86CD2586FD8800208600 /* App.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = ReleaseLinux;
 		};
@@ -2783,6 +2883,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBEF192C26806546001225BD /* AppLib.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = ReleaseLinux;
 		};
@@ -2792,6 +2893,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = app/FileProvider/iSHFileProvider.entitlements;
 				INFOPLIST_FILE = app/FileProvider/Info.plist;
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).FileProvider";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2809,6 +2911,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).UITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -2819,12 +2922,14 @@
 		BBEF19B126806D1F001225BD /* ReleaseLinux */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = ReleaseLinux;
 		};
 		BBEF19B226806D1F001225BD /* ReleaseLinux */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = ReleaseLinux;
 		};
@@ -2832,6 +2937,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBFB2CDA259028DC00545EAB /* StaticLib.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = ReleaseLinux;
 		};
@@ -2839,12 +2945,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBFB2CDA259028DC00545EAB /* StaticLib.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = ReleaseLinux;
 		};
 		BBEF19B526806D1F001225BD /* ReleaseLinux */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = ReleaseLinux;
 		};
@@ -2852,6 +2960,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BB0B86D52587009D00208600 /* iOS.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = ReleaseLinux;
 		};
@@ -2859,6 +2968,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 493B378F290F5320000C41ED /* CLI.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = ReleaseLinux;
 		};
@@ -2866,6 +2976,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBFB2CDA259028DC00545EAB /* StaticLib.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = "Debug-ApplePleaseFixFB19282108";
 		};
@@ -2873,6 +2984,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BBFB2CDA259028DC00545EAB /* StaticLib.xcconfig */;
 			buildSettings = {
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/app/claude-native";
 			};
 			name = Release;
 		};

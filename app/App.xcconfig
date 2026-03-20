@@ -10,4 +10,6 @@ CODE_SIGN_ENTITLEMENTS = app/iSH.entitlements
 
 HEADER_SEARCH_PATHS = $(inherited) $(SRCROOT) $(SRCROOT)/deps/libarchive/libarchive
 // AccessibilityFixes.m contains a static constructor that we don't want removed
-OTHER_LDFLAGS = -ObjC $(LINUX_APP_LDFLAGS) -u _accessibilityfixes_init
+OTHER_LDFLAGS = -ObjC $(LINUX_APP_LDFLAGS) -u _accessibilityfixes_init -framework NodeMobile
+FRAMEWORK_SEARCH_PATHS = $(inherited) $(PROJECT_DIR)/deps/NodeMobile/NodeMobile.xcframework/ios-arm64_x86_64-simulator
+LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/Frameworks
