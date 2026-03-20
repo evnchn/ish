@@ -12,3 +12,8 @@ MESON_BUILD_DIR = $(CONFIGURATION_BUILD_DIR)/meson
 NINJA_TARGETS = libish.a libish_emu.a libfakefs.a
 
 SUPPORTED_PLATFORMS = iphonesimulator iphoneos macosx
+
+// NodeMobile (Claude Code native runtime)
+HEADER_SEARCH_PATHS = $(inherited) $(PROJECT_DIR)/deps/NodeMobile/NodeMobile.xcframework/ios-arm64_x86_64-simulator/NodeMobile.framework/Headers
+FRAMEWORK_SEARCH_PATHS = $(inherited) $(PROJECT_DIR)/deps/NodeMobile/NodeMobile.xcframework/ios-arm64_x86_64-simulator
+OTHER_LDFLAGS = $(inherited) -framework NodeMobile

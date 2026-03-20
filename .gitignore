@@ -18,3 +18,8 @@ fastlane/screenshots
 fastlane/test_output
 
 e2e_out/
+alpine-rootfs/
+deps/NodeMobile/
+app/claude-native/claude_cli.js
+build_with_node.sh
+app/NodeMobile.h
