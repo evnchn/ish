@@ -100,7 +100,13 @@ var srv = net.createServer(function(socket) {
     outputBuffer = [];
     // Pipe socket input to our fake stdin
     socket.on('data', function(data) {
-        try { inputStream.push(data); } catch(x) {}
+        try {
+            inputStream.push(data);
+            // Also emit directly in case stdin listeners are on the original
+            process.stdin.emit('data', data);
+        } catch(x) {
+            try { socket.write('stdin error: ' + x.message + '\r\n'); } catch(z) {}
+        }
     });
     socket.on('close', function() { clientSocket = null; });
     socket.on('error', function() { clientSocket = null; });
