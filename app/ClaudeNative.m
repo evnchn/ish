@@ -31,7 +31,7 @@
 
         // Use mutable argv buffer - uv_set_process_title needs writable memory
         char arg0[256] = "node";
-        char arg1[] = "--no-deprecation";
+        char arg1[] = "--max-old-space-size=512";
         char arg2[4096];
         strlcpy(arg2, [bootstrapPath UTF8String], sizeof(arg2));
         char *argv[] = {arg0, arg1, arg2, NULL};
